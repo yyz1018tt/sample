@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from config import config
+from config import config, basedir
 from flask_login import LoginManager
 from flask_pagedown import PageDown
 from flask_ckeditor import CKEditor
@@ -50,4 +50,3 @@ def create_app(config_name):
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     return app
-

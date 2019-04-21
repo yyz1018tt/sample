@@ -48,29 +48,46 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.db')
+    SQLALCHEMY_POOL_RECYCLE = 280
 
     @classmethod
-    def init_app(cls, app):
-        Config.init_app(app)
-
-        # email errors to the administrators
+    def register_logging(self, app):
         import logging
-        from logging.handlers import SMTPHandler
-        credentials = None
-        secure = None
-        if getattr(cls, 'MAIL_USERNAME', None) is not None:
-            credentials = (cls.MAIL_USERNAME, cls.MAIL_PASSWORD)
-            if getattr(cls, 'MAIL_USE_TLS', None):
-                secure = ()
+        from logging.handlers import RotatingFileHandler, SMTPHandler
+        import os
+        from flask import request
+
+        class RequestFormatter(logging.Formatter):
+
+            def format(self, record):
+                record.url = request.url
+                record.remote_addr = request.remote_addr
+                return super(RequestFormatter, self).format(record)
+
+        request_formatter = RequestFormatter(
+            '[%(asctime)s] %(remote_addr)s requested %(url)s\n'
+            '%(levelname)s in %(module)s: %(message)s'
+        )
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+        file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/bluelog.log'),
+                                           maxBytes=10 * 1024 * 1024, backupCount=10)
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.INFO)
+
         mail_handler = SMTPHandler(
-            mailhost=(cls.MAIL_SERVER, cls.MAIL_PORT),
-            fromaddr=cls.FLASKY_MAIL_SENDER,
-            toaddrs=[cls.FLASKY_ADMIN],
-            subject=cls.FLASKY_MAIL_SUBJECT_PREFIX + ' Application Error',
-            credentials=credentials,
-            secure=secure)
+            mailhost=app.config['MAIL_SERVER'],
+            fromaddr=app.config['MAIL_USERNAME'],
+            toaddrs=['ADMIN_EMAIL'],
+            subject='Bluelog Application Error',
+            credentials=(app.config['MAIL_USERNAME'], app.config['MAIL_PASSWORD']))
         mail_handler.setLevel(logging.ERROR)
-        app.logger.addHandler(mail_handler)
+        mail_handler.setFormatter(request_formatter)
+
+        if not app.debug:
+            app.logger.addHandler(mail_handler)
+            app.logger.addHandler(file_handler)
 
 
 config = {
