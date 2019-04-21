@@ -1,0 +1,36 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Flasky - {{ title }} {{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+<h1>{{ title }} {{ user.username }}</h1>
+</div>
+<table class="table table-hover followers">
+    <thead><tr><th>User</th><th>Since</th></tr></thead>
+    {% for follow in follows %}
+        <tr>
+            {% if follow.user != user %}
+            <td>
+                {% if follow.user.avatar_s %}
+                    <a href="{{ url_for('.user', username=follow.user.username) }}">
+                        <img class="img-rounded" src="{{ url_for('main.get_avatar', filename=follow.user.avatar_s) }}">
+                        {{ follow.user.username }}
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('.user', username=follow.user.username) }}">
+                        <img class="img-rounded" src="{{ follow.user.gravatar(size=32) }}">
+                        {{ follow.user.username }}
+                    </a>
+                {% endif %}
+            </td>
+            <td>{{ moment(follow.timestamp).format('LLL') }}</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+<div class="pagination">
+<div class="page-footer">{{ render_pagination(pagination, endpoint, username=user.username) }}</div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>Category: {{ category.name }}</h1>
+        <p class="text-muted">{{ category.posts|length }} posts</p>
+    </div>
+
+    <div class="post-tabs">
+        {% include "_posts.html" %}
+    </div>
+    <div class="sidebar">
+        {% include "_sidebar.html" %}
+    </div>
+
+
+{% if pagination %}
+<div class="pagination">
+    <div class="page-footer">{{ render_pagination(pagination) }}</div>
+</div>
+{% endif %}
+{% endblock %}

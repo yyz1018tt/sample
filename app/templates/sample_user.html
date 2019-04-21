@@ -1,0 +1,93 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{% block title %}Flasky - {{ user.username }}{% endblock %}
+{% block page_content %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-3">
+            {% if user == current_user and user.avatar_l %}
+                <img class="img-rounded profile-thumbnail" src="{{ url_for('main.get_avatar', filename=current_user.avatar_l) }}">
+            {% elif user.avatar_l %}
+                <img class="img-rounded profile-thumbnail" src="{{ url_for('main.get_avatar', filename=user.avatar_l) }}">
+            {% else %}
+                <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=200) }}">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1>{{ user.name }}
+                        <small class="text-muted">{{ user.username }}</small>
+                    </h1>
+                    <p>
+                        {% if user.location %}
+                            <span class="oi oi-map-marker"></span>
+                            from <a href="https://www.amap.com/search?query={{ user.location }}">{{ user.location }}</a>
+                        {% endif %}
+                        {% if current_user.is_administrator() %}
+                            <span class="oi oi-link-intact"></span>
+                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                        {% endif %}
+                    </p>
+                    {% if user.about_me %}
+                        <p><span class="oi oi-person"></span> {{ user.about_me }}</p>
+                    {% endif %}
+                    <p>
+                        <span class="oi oi-calendar"></span>
+                        Member since {{ moment(user.member_since).format('L') }}.
+                        Last seen {{ moment(user.last_seen).fromNow() }}.
+                    </p>
+                    <p><span class="oi oi-calculator"></span> {{ user.posts.count() }} blog posts.</p>
+                    <p>
+                    <a href="{{ url_for('.followers', username=user.username) }}">
+                         <span class="badge badge-info">Followers: {{ user.followers.count() - 1 }}</span>
+                    </a>
+                    <a href="{{ url_for('.followed_by', username=user.username) }}">
+                         <span class="badge badge-info">Following: {{ user.followed.count() - 1 }}</span>
+                    </a>
+                    {% if current_user.is_authenticated and user != current_user and user.is_following(current_user) %}
+                       | <span class="label label-default">Follows you</span>
+                    {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                    {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+                        {% if not current_user.is_following(user) %}
+                            <a href="{{ url_for('.follow', username=user.username) }}"
+                            class="btn btn-outline-primary btn-sm float-right">
+                            Follow
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('.unfollow', username=user.username) }}"
+                            class="btn btn-outline-danger btn-sm float-right">
+                            Unfollow
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                    <br>
+                    <div class="row">
+                        {% if user == current_user %}
+                            <a class="btn btn-outline-primary btn-sm float-right"
+                               href="{{ url_for('.edit_profile') }}">Edit profile</a>
+                        {% elif current_user.is_administrator() %}
+                            <a class="btn btn-outline-danger btn-sm float-right"
+                               href="{{ url_for('.edit_profile_admin', id=user.id) }}">Edit profile [Admin]</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+    </div>
+</div>
+<h3>Post by {{ user.username }}</h3>
+{% include '_posts.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ render_pagination(pagination) }}
+</div>
+{% endif %}
+{% endblock %}

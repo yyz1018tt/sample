@@ -1,0 +1,45 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{% from '_macros.html' import user_card, post_card, category_card with context %}
+
+{% block title %}Search: {{ q }}{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Search: {{ q }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="nav nav-pills flex-column" role="tablist" aria-orientation="vertical">
+                <a class="nav-item nav-link {% if category == 'Post' %}active{% endif %}"
+                   href="{{ url_for('.search', q=q, category='Post') }}">Post</a>
+                <a class="nav-item nav-link {% if category == 'User' %}active{% endif %}"
+                   href="{{ url_for('.search', q=q, category='User') }}">User</a>
+                <a class="nav-item nav-link {% if category == 'Category' %}active{% endif %}"
+                   href="{{ url_for('.search', q=q, category='Category') }}">Category</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% if results %}
+                <h5>{{ results|length }} results</h5>
+                {% for item in results %}
+                    {% if category == 'User' %}
+                        {{ user_card(item) }}
+                    {% elif category == 'Post' %}
+                        {{ post_card(item) }}
+                    {% else %}
+                        {{ category_card(item) }}
+                    {% endif %}
+                {% endfor %}
+
+            {% else %}
+                <h5 class="tip">No results.</h5>
+            {% endif %}
+        </div>
+    </div>
+    {% if results %}
+        <div class="page-footer">
+            {{ render_pagination(pagination, align='right') }}
+        </div>
+    {% endif %}
+{% endblock %}

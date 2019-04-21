@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Album/.idea/Album.iml" filepath="$PROJECT_DIR$/../Album/.idea/Album.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Sample.iml" filepath="$PROJECT_DIR$/.idea/Sample.iml" />
+      <module fileurl="file://$USER_HOME$/albumy/.idea/albumy.iml" filepath="$USER_HOME$/albumy/.idea/albumy.iml" />
+      <module fileurl="file://$USER_HOME$/bluelog/.idea/bluelog.iml" filepath="$USER_HOME$/bluelog/.idea/bluelog.iml" />
+      <module fileurl="file://$USER_HOME$/flasky/.idea/flasky.iml" filepath="$USER_HOME$/flasky/.idea/flasky.iml" />
+      <module fileurl="file://$USER_HOME$/helloflask/.idea/helloflask.iml" filepath="$USER_HOME$/helloflask/.idea/helloflask.iml" />
+      <module fileurl="file://$USER_HOME$/todoism/.idea/todoism.iml" filepath="$USER_HOME$/todoism/.idea/todoism.iml" />
+      <module fileurl="file://$USER_HOME$/yyzblog/.idea/yyzblog.iml" filepath="$USER_HOME$/yyzblog/.idea/yyzblog.iml" />
+    </modules>
+  </component>
+</project>

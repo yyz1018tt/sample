@@ -1,0 +1,82 @@
+{% macro pagination_widget(pagination, endpoint, fragment='') %}
+<ul class="pagination">
+    <li><a href="{{ url_for(endpoint, page = 1, **kwargs) }}{{ fragment }}">First page</a> </li>
+    <li {% if not pagination.has_prev %} class="disabled" {% endif %}>
+        <a href="{% if pagination.has_prev %}{{ url_for(endpoint, page = pagination.prev_num, **kwargs) }}{{ fragment }}{% endif %}">
+            &laquo;
+        </a>
+    </li>
+    {% for p in pagination.iter_pages() %}
+        {% if p %}
+            {% if p == pagination.page %}
+                <li class="active">
+                    <a href="{{ url_for(endpoint, page = p, **kwargs) }}{{ fragment }}">{{ p }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ url_for(endpoint, page = p, **kwargs) }}{{ fragment }}">{{ p }}</a>
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="disabled">
+                <a href="#">...</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+    <li {% if not pagination.has_next %} class="disabled" {% endif %}>
+        <a href="{% if pagination.has_next %}{{ url_for(endpoint, page = pagination.next_num, **kwargs) }}{{ fragment }}{% endif %}">
+            &raquo;
+        </a>
+    </li>
+    <li><a href="{{ url_for(endpoint, page = pagination.pages, **kwargs) }}{{ fragment }}">Trailer page</a> </li>
+</ul>
+{% endmacro %}
+
+{% macro user_card(user) %}
+    <div class="user-card text-center">
+        <a href="{{ url_for('main.user', username=user.username) }}">
+            <img class="rounded avatar-m" src="{{ url_for('main.get_avatar', filename=user.avatar_m) }}">
+        </a>
+        <h6>
+            <a href="{{ url_for('main.user', username=user.username) }}">{{ user.name }}</a>
+        </h6>
+    </div>
+{% endmacro %}
+
+{% macro post_card(post) %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th width="20%">Date</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                <a href="{{ url_for('main.show_post', post_id=post.id) }}">
+                    {{ post.title }}
+                </a>
+            </td>
+            <td width="20%">{{ moment(post.timestamp).format('LL') }}</td>
+        </tr>
+    </table>
+{% endmacro %}
+
+{% macro category_card(category) %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th width="30%">Posts under category</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                <a href="{{ url_for('main.show_category', category_id=category.id) }}">
+                    {{ category.name }}
+                </a>
+            </td>
+            <td width="30%">{{ category.posts|length }} posts</td>
+        </tr>
+    </table>
+{% endmacro %}

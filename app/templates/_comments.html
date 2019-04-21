@@ -1,0 +1,57 @@
+<ul class="comments">
+    {% for comment in comments %}
+        <li class="comment">
+            <div class="comment-thumbnail">
+                <a href="{{ url_for('.user', username=comment.author.username) }}">
+                    {% if current_user.avatar_s %}
+                        <img class="img-rounded" src="{{ url_for('main.get_avatar', filename=current_user.avatar_s) }}">
+                    {% else %}
+                        <img class="img-rounded" src="{{ comment.author.gravatar(size=40) }}">
+                    {% endif %}
+                </a>
+            </div>
+            <div class="comment-content">
+                <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
+                <div class="comment-author"><a href="{{ url_for('.user', username=comment.author.username) }}">
+                    {{ comment.author.username }}</a> </div>
+                <div class="comment-body">
+                    {% if comment.disable %}
+                        <p><i>This comment has been disabled by a moderator.</i></p>
+
+                    {% elif moderate or not comment.disable %}
+                        {% if comment.body_html %}
+                            {{ comment.body_html | safe }}
+                        {% else %}
+                            {{ comment.body }}
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="comment-footer">
+                    {% if current_user.id == comment.author_id %}
+                        <a href="{{ url_for('.delete_comment', id=comment.id) }}">
+                            <span class="badge badge-danger">Delete</span>
+                        </a>
+                    {% elif current_user.is_administrator() %}
+                        <a href="{{ url_for('.delete_comment', id=comment.id) }}">
+                            <span class="badge badge-danger">Delete[Admin]</span>
+                        </a>
+                    {% endif %}
+                    {% if moderate %}
+                        {% if comment.disable %}
+                            <a class="badge badge-primary"
+                               href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">
+                                Enable
+                            </a>
+                        {% else %}
+                            <a class="badge badge-primary"
+                               href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">
+                                Disable
+                            </a>
+                    {% endif %}
+                </div>
+
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+</ul>

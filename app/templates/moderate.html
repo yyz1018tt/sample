@@ -1,0 +1,17 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Flasky - Comment moderation{% endblock %}
+
+{% block page_content %}
+<div class="page-header"><h1>Comment moderation</h1></div>
+
+{% set moderate = True %}
+{% include '_comments.html' %}
+
+{% if pagination %}
+<div class="pagination">
+    <div class="page-footer">{{ render_pagination(pagination, '.moderate') }}</div>
+</div>
+{% endif %}
+{% endblock %}

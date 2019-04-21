@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="myalbumy-data-dev">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.11">
+    <root id="1">
+      <ServerVersion>3.25.1</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <collation id="3" parent="1" name="BINARY"/>
+    <collation id="4" parent="1" name="NOCASE"/>
+    <collation id="5" parent="1" name="RTRIM"/>
+    <table id="6" parent="2" name="alembic_version"/>
+    <table id="7" parent="2" name="comments"/>
+    <table id="8" parent="2" name="permissions"/>
+    <table id="9" parent="2" name="photos"/>
+    <table id="10" parent="2" name="roles"/>
+    <table id="11" parent="2" name="roles_permissions"/>
+    <table id="12" parent="2" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <table id="13" parent="2" name="users"/>
+    <column id="14" parent="6" name="version_num">
+      <Position>1</Position>
+      <DataType>VARCHAR(32)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="15" parent="6" name="sqlite_autoindex_alembic_version_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>version_num</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="16" parent="6" name="alembic_version_pkc">
+      <ColNames>version_num</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_alembic_version_1</UnderlyingIndexName>
+    </key>
+    <column id="17" parent="7" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="18" parent="7" name="timestamp">
+      <Position>2</Position>
+      <DataType>DATETIME|0s</DataType>
+    </column>
+    <column id="19" parent="7" name="body">
+      <Position>3</Position>
+      <DataType>TEXT|0s</DataType>
+    </column>
+    <column id="20" parent="7" name="flag">
+      <Position>4</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="21" parent="7" name="author_id">
+      <Position>5</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="22" parent="7" name="photo_id">
+      <Position>6</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="23" parent="7" name="replied_id">
+      <Position>7</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <index id="24" parent="7" name="ix_comments_timestamp">
+      <ColNames>timestamp</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <key id="25" parent="7">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="26" parent="7">
+      <ColNames>author_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="27" parent="7">
+      <ColNames>photo_id</ColNames>
+      <RefTableName>photos</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="28" parent="7">
+      <ColNames>replied_id</ColNames>
+      <RefTableName>comments</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="29" parent="8" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="8" name="name">
+      <Position>2</Position>
+      <DataType>VARCHAR(30)|0s</DataType>
+    </column>
+    <index id="31" parent="8" name="sqlite_autoindex_permissions_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="32" parent="8">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="33" parent="8">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_permissions_1</UnderlyingIndexName>
+    </key>
+    <column id="34" parent="9" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="9" name="description">
+      <Position>2</Position>
+      <DataType>VARCHAR(500)|0s</DataType>
+    </column>
+    <column id="36" parent="9" name="filename">
+      <Position>3</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <column id="37" parent="9" name="filename_s">
+      <Position>4</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <column id="38" parent="9" name="filename_m">
+      <Position>5</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <column id="39" parent="9" name="timestamp">
+      <Position>6</Position>
+      <DataType>DATETIME|0s</DataType>
+    </column>
+    <column id="40" parent="9" name="author_id">
+      <Position>7</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="41" parent="9" name="can_comment">
+      <Position>8</Position>
+      <DataType>BOOLEAN|0s</DataType>
+    </column>
+    <index id="42" parent="9" name="ix_photos_timestamp">
+      <ColNames>timestamp</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <index id="43" parent="9" name="ix_photos_can_comment">
+      <ColNames>can_comment</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <key id="44" parent="9">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="45" parent="9">
+      <ColNames>author_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="46" parent="10" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="10" name="name">
+      <Position>2</Position>
+      <DataType>VARCHAR(30)|0s</DataType>
+    </column>
+    <index id="48" parent="10" name="sqlite_autoindex_roles_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>name</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="49" parent="10">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="50" parent="10">
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_roles_1</UnderlyingIndexName>
+    </key>
+    <column id="51" parent="11" name="role_id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="52" parent="11" name="permission_id">
+      <Position>2</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <foreign-key id="53" parent="11">
+      <ColNames>role_id</ColNames>
+      <RefTableName>roles</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="54" parent="11">
+      <ColNames>permission_id</ColNames>
+      <RefTableName>permissions</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="55" parent="12" name="type">
+      <Position>1</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="56" parent="12" name="name">
+      <Position>2</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="57" parent="12" name="tbl_name">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="58" parent="12" name="rootpage">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="59" parent="12" name="sql">
+      <Position>5</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="60" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="13" name="username">
+      <Position>2</Position>
+      <DataType>VARCHAR(20)|0s</DataType>
+    </column>
+    <column id="62" parent="13" name="email">
+      <Position>3</Position>
+      <DataType>VARCHAR(254)|0s</DataType>
+    </column>
+    <column id="63" parent="13" name="password_hash">
+      <Position>4</Position>
+      <DataType>VARCHAR(128)|0s</DataType>
+    </column>
+    <column id="64" parent="13" name="name">
+      <Position>5</Position>
+      <DataType>VARCHAR(20)|0s</DataType>
+    </column>
+    <column id="65" parent="13" name="website">
+      <Position>6</Position>
+      <DataType>VARCHAR(255)|0s</DataType>
+    </column>
+    <column id="66" parent="13" name="bio">
+      <Position>7</Position>
+      <DataType>VARCHAR(120)|0s</DataType>
+    </column>
+    <column id="67" parent="13" name="location">
+      <Position>8</Position>
+      <DataType>VARCHAR(50)|0s</DataType>
+    </column>
+    <column id="68" parent="13" name="member_since">
+      <Position>9</Position>
+      <DataType>DATETIME|0s</DataType>
+    </column>
+    <column id="69" parent="13" name="confirm">
+      <Position>10</Position>
+      <DataType>BOOLEAN|0s</DataType>
+    </column>
+    <column id="70" parent="13" name="role_id">
+      <Position>11</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <column id="71" parent="13" name="avatar_l">
+      <Position>12</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <column id="72" parent="13" name="avatar_m">
+      <Position>13</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <column id="73" parent="13" name="avatar_s">
+      <Position>14</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <index id="74" parent="13" name="ix_users_username">
+      <ColNames>username</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <index id="75" parent="13" name="ix_users_email">
+      <ColNames>email</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="76" parent="13">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <check id="77" parent="13">
+      <Predicate>confirm IN (0, 1)</Predicate>
+    </check>
+  </database-model>
+</dataSource>

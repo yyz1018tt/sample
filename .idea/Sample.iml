@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="Flask">
+    <option name="enabled" value="true" />
+  </component>
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="helloflask" />
+    <orderEntry type="module" module-name="bluelog" />
+    <orderEntry type="module" module-name="Album" />
+    <orderEntry type="module" module-name="albumy" />
+    <orderEntry type="module" module-name="flask-dropzone" />
+    <orderEntry type="module" module-name="flasky" />
+    <orderEntry type="module" module-name="todoism" />
+    <orderEntry type="module" module-name="flask-oauthlib" />
+    <orderEntry type="module" module-name="yyzblog" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$USER_HOME$/helloflask/demos/form/templates" />
+      </list>
+    </option>
+  </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
+  </component>
+</module>

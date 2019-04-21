@@ -1,0 +1,96 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Flasky - Show Post{% endblock %}
+
+{% block content %}
+<div class="posts">
+    <h2>Post:</h2>
+    <ul class="posts">
+    {% for post in posts %}
+    <li class="post">
+        <div class="post-content">
+            <div class="post-date">
+                {{ moment(post.timestamp).fromNow() }}
+            </div>
+            <h3 class="text-primary">{{ post.title }}</h3>
+            <b>Written by</b>: <a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a>
+            <p>
+            {{ post.body }}
+            </p>
+            <div class="post-footer-left">
+                <b>Category</b>: <a href="{{ url_for('.show_category', category_id=post.category.id) }}">
+                     {{ post.category.name }}
+            </a>
+            </div>
+            <div class="post-footer-right">
+            {% if current_user.is_authenticated %}
+
+                <span class="dropdown">
+                    <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-ellipses"></span>
+                    </button>
+                    <span class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                        {% if current_user == post.author %}
+                        <a class="dropdown-item" href="{{ url_for('.edit', id=post.id) }}">
+                            <span class="oi oi-pencil"></span> Edit
+                        </a>
+                        <a class="dropdown-item" href="{{ url_for('.delete_post', id=post.id) }}">
+                            <span class="oi oi-trash"></span> Delete
+                        </a>
+                        {% elif current_user.is_administrator() %}
+                        <a class="dropdown-item" href="{{ url_for('.edit', id=post.id) }}">
+                            <span class="oi oi-pencil"></span> Edit[Admin]
+                        </a>
+                        <a class="dropdown-item" href="{{ url_for('.delete_post', id=post.id) }}">
+                            <span class="oi oi-trash"></span> Delete[Admin]
+                        </a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ url_for('.post', id=post.id) }}#comments">
+                            <span class="oi oi-chat"></span> Comment
+                        </a>
+                        <a class="dropdown-item" href="{{ url_for('.post', id=post.id) }}">
+                            <span class="oi oi-tag"></span> Category
+                        </a>
+
+                    </span>
+                </span>
+
+            {% endif %}
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+<div class="comments">
+    {% if comments_num %}
+        <h2>Comments:</h2>
+    {% endif %}
+    {% include '_comments.html' %}
+
+</div>
+<div class="comment-form">
+    {% if current_user.can(Permission.COMMENT) and p.can_comment %}
+        {{ render_form(form) }}
+    {% else %}
+        <div class="tip"><h5>Comment disable.</h5></div>
+    {% endif %}
+</div>
+
+{% if pagination %}
+<div class="pagination">
+    <div class="page-footer">{{ render_pagination(pagination, '.post', fragment='#comment', id=posts[0].id) }}</div>
+</div>
+{% endif %}
+
+{% block scripts %}
+{{ super() }}
+{{ ckeditor.load() }}
+{% endblock %}
+{% endblock %}

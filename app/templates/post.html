@@ -1,0 +1,40 @@
+{% extends 'sample_base.html' %}
+{% from 'bootstrap/form.html' import render_form %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+
+{% block title %}Flasky - post{% endblock %}
+
+{% block content %}
+<div class="posts">
+    <h2>Post:</h2>
+    {% include '_posts.html' %}
+</div>
+
+
+<div class="comments">
+    {% if comments_num %}
+        <h2>Comments:</h2>
+    {% endif %}
+    {% include '_comments.html' %}
+
+</div>
+<div class="comment-form">
+    {% if current_user.can(Permission.COMMENT) and post.can_comment %}
+        {{ render_form(form) }}
+    {% else %}
+        <div class="tip"><h5>Comment disable.</h5></div>
+    {% endif %}
+</div>
+
+
+{% if pagination %}
+<div class="pagination">
+    <div class="page-footer">{{ render_pagination(pagination, '.post', fragment='#comment', id=posts[0].id) }}</div>
+</div>
+{% endif %}
+
+{% block scripts %}
+{{ super() }}
+{{ ckeditor.load() }}
+{% endblock %}
+{% endblock %}
