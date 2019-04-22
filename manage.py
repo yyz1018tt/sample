@@ -10,9 +10,10 @@ from app import create_app, db, User, Role
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand, upgrade
 from app.models import User, Follow, Role, Permission, Post, Comment, Category
-import click
+from werkzeug.contrib.fixers import ProxyFix
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app.wsgi_app = ProxyFix(app.wsgi_app)
 manager = Manager(app)
 migrate = Migrate(app, db)
 
@@ -53,10 +54,11 @@ def test(coverage=False):
 def deploy():
     """Run deployment tasks."""
     # migrate database to latest revision
-    upgrade()
+    db.create_all()
 
     # create or update user roles
     Role.insert_role()
+    Category.generate_default()
 
     # ensure all users are following themselves
     User.add_self_follows()
