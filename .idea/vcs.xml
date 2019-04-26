@@ -6,6 +6,7 @@
     <mapping directory="$PROJECT_DIR$/todoism" vcs="Git" />
     <mapping directory="$USER_HOME$/albumy" vcs="Git" />
     <mapping directory="$USER_HOME$/bluelog" vcs="Git" />
+    <mapping directory="$USER_HOME$/catchat" vcs="Git" />
     <mapping directory="$USER_HOME$/flask-dropzone" vcs="Git" />
     <mapping directory="$USER_HOME$/flask-oauthlib" vcs="Git" />
     <mapping directory="$USER_HOME$/flasky" vcs="Git" />

@@ -34,6 +34,7 @@
           <option value="app.Post" />
           <option value="myalbumy.extensions.flask_dropzone" />
           <option value="PIL" />
+          <option value="app.oauth" />
         </list>
       </option>
     </inspection_tool>

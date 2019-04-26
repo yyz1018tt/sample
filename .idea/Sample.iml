@@ -9,15 +9,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="helloflask" />
     <orderEntry type="module" module-name="bluelog" />
-    <orderEntry type="module" module-name="Album" />
     <orderEntry type="module" module-name="albumy" />
     <orderEntry type="module" module-name="flask-dropzone" />
     <orderEntry type="module" module-name="flasky" />
-    <orderEntry type="module" module-name="todoism" />
     <orderEntry type="module" module-name="flask-oauthlib" />
     <orderEntry type="module" module-name="yyzblog" />
+    <orderEntry type="module" module-name="catchat" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

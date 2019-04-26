@@ -9,6 +9,7 @@ from flask_pagedown import PageDown
 from flask_ckeditor import CKEditor
 from flask_avatars import Avatars
 from flask_whooshee import Whooshee
+from flask_oauthlib.client import OAuth
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -19,6 +20,7 @@ login_manager = LoginManager()
 ckeditor = CKEditor()
 avatars = Avatars()
 whooshee = Whooshee()
+oauth = OAuth()
 
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
@@ -38,7 +40,9 @@ def create_app(config_name):
     pagedown.init_app(app)
     ckeditor.init_app(app)
     avatars.init_app(app)
+    oauth.init_app(app)
     whooshee.init_app(app)
+
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
@@ -48,5 +52,8 @@ def create_app(config_name):
 
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
+
+    from .oauth import oauth_bp as oauth_blueprint
+    app.register_blueprint(oauth_blueprint)
 
     return app
