@@ -16,9 +16,13 @@
                 <br>
             {% endif %}
             <div class="post-footer-left">
-                <b>Category</b>: <a href="{{ url_for('.show_category', category_id=post.category.id) }}">
+                <b>Category</b>:
+                <a href="{{ url_for('.show_category', category_id=post.category.id) }}">
                      {{ post.category.name }}
                 </a>
+                &nbsp
+                <b>post by</b>
+                <a href="{{ url_for('main.user', username=post.author.username) }}">{{ post.author.username }}</a>
             </div>
             <div class="post-footer-right">
             {% if current_user.is_authenticated %}
